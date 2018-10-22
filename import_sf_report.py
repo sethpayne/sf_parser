@@ -8,7 +8,6 @@ client = MongoClient('localhost', 27017)
 db = client.sf
 c = db.bi_cases
 
-
 # read 1st (ok, 2nd) command line argument
 argument = sys.argv[1]
 
@@ -16,7 +15,7 @@ argument = sys.argv[1]
 file = open(argument, encoding="ISO-8859-1") 
 
 # Read the first line of the file and remove quotes and newline | replace spaces with _ | replaces \ with _
-first_line = file.readline().replace("\"", "").replace(" ", "_").replace("(", "").replace(")","").lower().strip()
+first_line = file.readline().replace("\"", "").replace(" ", "_").replace("(", "").replace(")","").replace("/", "_").lower().strip()
 
 # crete array of line values with , delimiter
 field_array = first_line.split(",")
@@ -42,6 +41,16 @@ def strToInt(int_string):
 	int_int = int(float(int_string))
 	return;
 
+# Function to deal with 1s and 0s and make them boolean
+
+def strToBool(bool_string):
+	global bool_bool
+	if bool_string == "1":
+		bool_bool = True
+	else:
+		bool_bool = False
+	return;
+
 # create read object for csv
 reader = csv.reader(file)
 
@@ -61,6 +70,15 @@ for row in reader:
 		elif field_name == "age_hours":
 			strToInt(row[x])
 			print(field_name, ":", int_int)
+		elif field_name == "annual_revenue" and row[x] != "":
+			strToInt(row[x])
+			print(field_name, ":", int_int)
+		elif field_name == "open":
+			strToBool(row[x])
+			print(field_name, ":", bool_bool)
+		elif field_name == "closed":
+			strToBool(field_name)
+			print(field_name, ":", bool_bool)	
 		dict[field_name] = field_value
 
 # reader = csv.reader(file)
