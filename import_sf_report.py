@@ -5,7 +5,7 @@ import datetime
 
 from pymongo import MongoClient
 client = MongoClient('localhost', 27017)
-db = client.sf
+db = bi
 c = db.bi_cases
 
 # read 1st (ok, 2nd) command line argument
@@ -70,7 +70,7 @@ for row in reader:
 		elif field_name == "age_hours":
 			strToInt(row[x])
 			print(field_name, ":", int_int)
-		elif field_name == "annual_revenue" and row[x] != "":
+		elif field_name == ("annual_revenue" and row[x] != "") or field_name == "total_amount_spent_on_ps_and_arr":
 			strToInt(row[x])
 			print(field_name, ":", int_int)
 		elif field_name == "open":
@@ -78,8 +78,9 @@ for row in reader:
 			print(field_name, ":", bool_bool)
 		elif field_name == "closed":
 			strToBool(field_name)
-			print(field_name, ":", bool_bool)	
+			print(field_name, ":", bool_bool)
 		dict[field_name] = field_value
+	bi_id = c.insert_one(dict)
 
 # reader = csv.reader(file)
 # for row in reader:
